@@ -24,6 +24,7 @@
     <modules>
         <module>authors-service</module>
         <module>books-service</module>
+        <module>bff-service</module>
     </modules>
 
     <dependencies>
