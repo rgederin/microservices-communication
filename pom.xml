@@ -17,14 +17,13 @@
     <name>microservices-communication-base</name>
     <packaging>pom</packaging>
 
-    <description>Demo project for Spring Boot</description>
-
     <properties>
         <java.version>1.8</java.version>
     </properties>
 
     <modules>
         <module>authors-service</module>
+        <module>books-service</module>
     </modules>
 
     <dependencies>
@@ -43,6 +42,7 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
