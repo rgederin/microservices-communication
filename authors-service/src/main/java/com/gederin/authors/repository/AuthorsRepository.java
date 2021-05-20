@@ -7,7 +7,7 @@ import com.gederin.authors.model.Author;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
@@ -16,13 +16,13 @@ import javax.annotation.PostConstruct;
 
 @Component
 public class AuthorsRepository {
-    private final Map<Integer, Author> authors = new LinkedHashMap<>();
+    private final Map<Integer, Author> authors = new HashMap<>();
 
     @PostConstruct
     public void init() {
-        authors.put(1, new Author(1, "Loreth Anne", "White", 1));
+        authors.put(1, new Author(1, "Loreth Anne", "White", 2));
         authors.put(2, new Author(2, "Lisa", "Regan", 1));
-        authors.put(3, new Author(3, "Ty", "Patterson", 1));
+        authors.put(3, new Author(3, "Ty", "Patterson", 2));
     }
 
     public Collection<Author> getAuthors() {
