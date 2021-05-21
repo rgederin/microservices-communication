@@ -1,6 +1,7 @@
 package com.gederin.books.controller;
 
 import com.gederin.books.dto.BookDto;
+import com.gederin.books.dto.BookListDto;
 import com.gederin.books.exception.BookNotFoundException;
 import com.gederin.books.service.BooksService;
 
@@ -14,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Collection;
 
 import lombok.AllArgsConstructor;
 
@@ -33,7 +32,7 @@ public class BooksController {
 
     @GetMapping("books")
     @ResponseStatus(HttpStatus.OK)
-    public Collection<BookDto> books() {
+    public BookListDto books() {
         return booksService.getBooks();
     }
 

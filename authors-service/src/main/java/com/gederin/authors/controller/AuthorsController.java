@@ -1,6 +1,7 @@
 package com.gederin.authors.controller;
 
 import com.gederin.authors.dto.AuthorDto;
+import com.gederin.authors.dto.AuthorsListDto;
 import com.gederin.authors.exceptions.AuthorDatabaseException;
 import com.gederin.authors.exceptions.AuthorNotFoundException;
 import com.gederin.authors.service.AuthorsService;
@@ -15,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Collection;
 
 import lombok.AllArgsConstructor;
 
@@ -34,7 +33,7 @@ public class AuthorsController {
 
     @GetMapping("authors")
     @ResponseStatus(HttpStatus.OK)
-    public Collection<AuthorDto> authors() {
+    public AuthorsListDto authors() {
         return authorsService.getAuthors();
     }
 

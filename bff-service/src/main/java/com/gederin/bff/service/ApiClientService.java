@@ -1,7 +1,7 @@
 package com.gederin.bff.service;
 
-import com.gederin.bff.dto.AuthorDto;
-import com.gederin.bff.dto.BookDto;
+import com.gederin.bff.dto.AuthorsListDto;
+import com.gederin.bff.dto.BooksListDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import lombok.extern.slf4j.Slf4j;
@@ -51,18 +50,18 @@ public class ApiClientService {
     }
 
     @Async("threadPoolTaskExecutor")
-    public CompletableFuture<List<AuthorDto>> callAuthors() {
+    public CompletableFuture<AuthorsListDto> callAuthors() {
         log.info("getting all authors from authors service in seprate thread");
 
-        List<AuthorDto> authors = restTemplate.getForObject(authrosServiceUrl + ALL_AUTHORS_ENDPOINT, List.class);
-        return CompletableFuture.completedFuture(authors);
+        AuthorsListDto authorsListDto = restTemplate.getForObject(authrosServiceUrl + ALL_AUTHORS_ENDPOINT, AuthorsListDto.class);
+        return CompletableFuture.completedFuture(authorsListDto);
     }
 
     @Async("threadPoolTaskExecutor")
-    public CompletableFuture<List<BookDto>> callBooks() {
+    public CompletableFuture<BooksListDto> callBooks() {
         log.info("getting all books from books service in seprate thread");
 
-        List<BookDto> books = restTemplate.getForObject(booksServiceUrl + ALL_BOOKS_ENDPOINT, List.class);
-        return CompletableFuture.completedFuture(books);
+        BooksListDto booksListDto = restTemplate.getForObject(booksServiceUrl + ALL_BOOKS_ENDPOINT, BooksListDto.class);
+        return CompletableFuture.completedFuture(booksListDto);
     }
 }

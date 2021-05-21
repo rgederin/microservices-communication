@@ -1,5 +1,6 @@
 package com.gederin.bff.controllers;
 
+import com.gederin.bff.dto.BookWithAuthorDto;
 import com.gederin.bff.dto.DashboardDto;
 import com.gederin.bff.dto.HealthDto;
 import com.gederin.bff.service.BackendForFrontendService;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import lombok.AllArgsConstructor;
@@ -31,5 +33,11 @@ public class BackendForFrontendController {
     @ResponseStatus(HttpStatus.OK)
     public DashboardDto dashboard() throws ExecutionException, InterruptedException {
         return backendForFrontendService.getBooksAndAuthors();
+    }
+
+    @GetMapping("dashboard/combained")
+    @ResponseStatus(HttpStatus.OK)
+    public List<BookWithAuthorDto> combainedDashboard() throws ExecutionException, InterruptedException {
+        return backendForFrontendService.getBooksWithAuthors();
     }
 }

@@ -1,12 +1,11 @@
 package com.gederin.authors.service;
 
 import com.gederin.authors.dto.AuthorDto;
-import com.gederin.authors.model.Author;
+import com.gederin.authors.dto.AuthorsListDto;
 import com.gederin.authors.repository.AuthorsRepository;
 
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
@@ -15,35 +14,28 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AuthorsService {
     private final AuthorsRepository authorsRepository;
+    private final DtoMapperService dtoMapperService;
 
-    public Collection<AuthorDto> getAuthors() {
-        return authorsRepository.getAuthors()
+    public AuthorsListDto getAuthors() {
+        AuthorsListDto authorsListDto = new AuthorsListDto();
+
+        authorsListDto.setAuthors(authorsRepository.getAuthors()
                 .stream()
-                .map(this::mapToDto)
-                .collect(Collectors.toList());
+                .map(dtoMapperService::mapToAuthorDto)
+                .collect(Collectors.toList()));
+
+        return authorsListDto;
     }
 
     public AuthorDto updateAuthor(int id, AuthorDto authorDto) {
-        return mapToDto(authorsRepository.updateAuthor(id, mapFromDto(authorDto)));
+        return dtoMapperService.mapToAuthorDto(
+                authorsRepository.updateAuthor(id, dtoMapperService.mapFromAuthorDto(authorDto))
+        );
     }
 
     public AuthorDto addAuthor(int id, AuthorDto authorDto) {
-        return mapToDto(authorsRepository.addAuthor(id, mapFromDto(authorDto)));
-    }
-
-    private Author mapFromDto(AuthorDto authorDto) {
-        Author author = new Author();
-
-        author.setFirstName(authorDto.getFirstName());
-        author.setLastName(authorDto.getLastName());
-
-        return author;
-    }
-
-    private AuthorDto mapToDto(Author author) {
-        return new AuthorDto(author.getId(),
-                author.getFirstName(),
-                author.getLastName(),
-                author.getNumberOfBooks());
+        return dtoMapperService.mapToAuthorDto(
+                authorsRepository.addAuthor(id, dtoMapperService.mapFromAuthorDto(authorDto))
+        );
     }
 }
