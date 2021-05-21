@@ -8,6 +8,7 @@ import com.gederin.bff.dto.BooksListDto;
 import com.gederin.bff.dto.DashboardDto;
 import com.gederin.bff.dto.HealthDto;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -63,9 +64,19 @@ public class BackendForFrontendService {
                 .collect(Collectors.toList());
     }
 
+    public ResponseEntity<Boolean> addBook(int id, BookWithAuthorDto bookWithAuthorDto) {
+        ResponseEntity<Boolean> result = apiClientService.callAddBook(bookWithAuthorDto.getId(), bookWithAuthorDto);
+
+        System.out.println(result);
+
+        return result;
+    }
+
+
     private BookWithAuthorDto mergeAuthorInBook(BookDto book, List<AuthorDto> authors) {
         BookWithAuthorDto bookWithAuthorDto = new BookWithAuthorDto();
 
+        bookWithAuthorDto.setId(book.getId());
         bookWithAuthorDto.setTitle(book.getTitle());
         bookWithAuthorDto.setPages(book.getPages());
         bookWithAuthorDto.setAuthorId(book.getAuthorId());

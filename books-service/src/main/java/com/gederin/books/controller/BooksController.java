@@ -2,10 +2,12 @@ package com.gederin.books.controller;
 
 import com.gederin.books.dto.BookDto;
 import com.gederin.books.dto.BookListDto;
+import com.gederin.books.dto.BookWithAuthorDto;
 import com.gederin.books.exception.BookNotFoundException;
 import com.gederin.books.service.BooksService;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,10 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("api/v1")
 @AllArgsConstructor
+@Slf4j
 public class BooksController {
 
     private BooksService booksService;
@@ -38,8 +42,9 @@ public class BooksController {
 
     @PostMapping("book/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public BookDto add(@PathVariable int id, @RequestBody BookDto bookDto) {
-        return booksService.addBook(id, bookDto);
+    public ResponseEntity<Boolean> add(@PathVariable int id, @RequestBody BookWithAuthorDto bookWithAuthorDto) {
+        log.info("adding new book: " + bookWithAuthorDto);
+        return ResponseEntity.ok(true);
     }
 
     @PutMapping("book/{id}")
