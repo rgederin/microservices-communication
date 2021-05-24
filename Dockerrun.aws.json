@@ -6,6 +6,7 @@
       "image": "rgederin/bff-service:0.0.1-SNAPSHOT",
       "hostname": "bff-service",
       "essential": true,
+      "memory": 256,
       "portMappings": [
         {
           "hostPort": 8000,
