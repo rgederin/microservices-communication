@@ -1,17 +1,13 @@
 version: "3"
 services:
   authors-service:
-    image: "rgederin/authors-service:0.0.1-SNAPSHOT"
     build:
-      dockerfile: Dockerfile.dev
       context: ./authors-service
     ports:
       - 8081:8081
 
   books-service:
-    image: "rgederin/books-service:0.0.1-SNAPSHOT"
     build:
-      dockerfile: Dockerfile.dev
       context: ./books-service
     ports:
       - 8082:8082
@@ -19,9 +15,7 @@ services:
       AUTHORS_URL: http://authors-service:8081
 
   bff-service:
-    image: "rgederin/bff-service:0.0.1-SNAPSHOT"
     build:
-      dockerfile: Dockerfile.dev
       context: ./bff-service
     ports:
       - 8083:8083
