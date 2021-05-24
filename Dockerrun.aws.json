@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "bff-service",
-      "image": "rgederin/bff-service",
+      "image": "rgederin/bff-service:0.0.1-SNAPSHOT",
       "hostname": "bff-service",
       "essential": true,
       "memory": 256,
@@ -30,7 +30,7 @@
     },
     {
       "name": "authors-service",
-      "image": "rgederin/authors-service",
+      "image": "rgederin/authors-service:0.0.1-SNAPSHOT",
       "hostname": "authors-service",
       "essential": false,
       "memory": 256,
@@ -43,7 +43,7 @@
     },
     {
       "name": "books-service",
-      "image": "rgederin/books-service",
+      "image": "rgederin/books-service:0.0.1-SNAPSHOT",
       "hostname": "books-service",
       "essential": false,
       "memory": 256,
