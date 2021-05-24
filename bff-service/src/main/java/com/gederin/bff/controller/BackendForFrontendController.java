@@ -28,6 +28,13 @@ public class BackendForFrontendController {
 
     private final BackendForFrontendService backendForFrontendService;
 
+    @GetMapping("self/health")
+    @ResponseStatus(HttpStatus.OK)
+    public String selfHealth() throws ExecutionException, InterruptedException {
+        return "bff service is ok";
+    }
+
+
     @GetMapping("health")
     @ResponseStatus(HttpStatus.OK)
     public HealthDto health() throws ExecutionException, InterruptedException {
