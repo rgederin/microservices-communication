@@ -10,3 +10,15 @@ after_success:
   - mvn dockerfile:push -f authors-service/
   - mvn dockerfile:push -f books-service/
   - mvn dockerfile:push -f bff-service/
+
+ deploy:
+   provider: elasticbeanstalk
+   region: "us-east-2"
+   app: "microservices-application"
+   env: "Microservicesapplication-env"
+   bucket_name: "elasticbeanstalk-us-west-2-530260462866"
+   bucket_path: "microservices-application"
+   on:
+     branch: master
+   access_key_id: $AWS_ACCESS_KEY
+   secret_access_key: $AWS_SECRET_KEY
