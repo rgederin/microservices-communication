@@ -44,26 +44,23 @@ public class AuthorsRepository {
         return result;
     }
 
-    public Author addAuthor(int id, Author author) {
-        if (new Random().nextInt(3) == 2) {
+    public boolean addAuthor(Author author) {
+        if (new Random().nextInt(5) == 4) {
             throw new AuthorDatabaseException("failed to save the author");
         }
 
-        Author result = authors.computeIfPresent(id, (key, value) -> {
-                    value.setId(value.getId());
+        Author updatedAuthor = authors.computeIfPresent(author.getId(), (key, value) -> {
                     value.setNumberOfBooks(value.getNumberOfBooks() + 1);
                     return value;
                 }
         );
 
-        if (result == null) {
-            author.setId(id);
+        if (updatedAuthor == null) {
             author.setNumberOfBooks(1);
-            authors.put(id, author);
-            result = author;
+            authors.put(author.getId(), author);
         }
 
-        return result;
+        return true;
     }
 
     public Author findById(int id) {

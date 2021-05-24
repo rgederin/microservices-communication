@@ -7,6 +7,7 @@ import com.gederin.authors.exceptions.AuthorNotFoundException;
 import com.gederin.authors.service.AuthorsService;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,10 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("api/v1")
 @AllArgsConstructor
+@Slf4j
 public class AuthorsController {
 
     private final AuthorsService authorsService;
@@ -47,13 +50,18 @@ public class AuthorsController {
         }
     }
 
-    @PostMapping("author/{id}")
+    @PostMapping("author")
     @ResponseStatus(HttpStatus.OK)
-    public AuthorDto add(@PathVariable int id, @RequestBody AuthorDto authorDto) {
+    public ResponseEntity<Boolean> add(@RequestBody AuthorDto authorDto) {
         try {
-            return authorsService.addAuthor(id, authorDto);
+            log.info("add author endpoint: {}", authorDto);
+            return ResponseEntity.ok(authorsService.addAuthor(authorDto));
         } catch (AuthorDatabaseException ex) {
+            log.info("author not added due to exception: {}", ex.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "internal error", ex);
+        } catch (Exception ex) {
+            log.error("unknown exception happened while adding new author");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "unknown exception happened while adding new author", ex);
         }
     }
 }

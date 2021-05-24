@@ -1,5 +1,6 @@
 package com.gederin.books.repository;
 
+import com.gederin.books.exception.BookAlreadyExistsException;
 import com.gederin.books.exception.BookNotFoundException;
 import com.gederin.books.model.Book;
 
@@ -28,11 +29,17 @@ public class BooksRepository {
         return books.values();
     }
 
-    public Book addBook(int id, Book book) {
-        book.setId(id);
-        books.put(id, book);
+    public boolean addBook(Book book) {
+        if (books.containsKey(book.getId())) {
+            throw new BookAlreadyExistsException("book with give id already exists");
+        }
 
-        return book;
+        books.put(book.getId(), book);
+        return true;
+    }
+
+    public void removeBook(int id){
+        books.remove(id);
     }
 
     public Book updateBook(int id, Book book) {

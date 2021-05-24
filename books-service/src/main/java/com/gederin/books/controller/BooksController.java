@@ -40,11 +40,11 @@ public class BooksController {
         return booksService.getBooks();
     }
 
-    @PostMapping("book/{id}")
+    @PostMapping("book")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Boolean> add(@PathVariable int id, @RequestBody BookWithAuthorDto bookWithAuthorDto) {
+    public ResponseEntity<Boolean> add(@RequestBody BookWithAuthorDto bookWithAuthorDto) {
         log.info("adding new book: " + bookWithAuthorDto);
-        return ResponseEntity.ok(true);
+        return booksService.addBook(bookWithAuthorDto);
     }
 
     @PutMapping("book/{id}")

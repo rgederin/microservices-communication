@@ -1,4 +1,4 @@
-package com.gederin.bff.controllers;
+package com.gederin.bff.controller;
 
 import com.gederin.bff.dto.BookWithAuthorDto;
 import com.gederin.bff.dto.DashboardDto;
@@ -8,7 +8,6 @@ import com.gederin.bff.service.BackendForFrontendService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +18,12 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("api/v1")
 @AllArgsConstructor
+@Slf4j
 public class BackendForFrontendController {
 
     private final BackendForFrontendService backendForFrontendService;
@@ -46,9 +47,10 @@ public class BackendForFrontendController {
     }
 
 
-    @PostMapping("book/{id}")
+    @PostMapping("book")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Boolean> addBook(@PathVariable int id, @RequestBody BookWithAuthorDto bookWithAuthorDto){
-        return backendForFrontendService.addBook(id, bookWithAuthorDto);
+    public ResponseEntity<Boolean> addBook(@RequestBody BookWithAuthorDto bookWithAuthorDto){
+        log.info("addBook controller in bff service: {}", bookWithAuthorDto);
+        return backendForFrontendService.addBook(bookWithAuthorDto);
     }
 }

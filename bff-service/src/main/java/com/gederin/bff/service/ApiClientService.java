@@ -3,6 +3,7 @@ package com.gederin.bff.service;
 import com.gederin.bff.dto.AuthorsListDto;
 import com.gederin.bff.dto.BookWithAuthorDto;
 import com.gederin.bff.dto.BooksListDto;
+import com.gederin.bff.exception.BookServiceException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +22,7 @@ public class ApiClientService {
     private static final String HEALTH_ENDPOINT = "/api/v1/health";
     private static final String ALL_BOOKS_ENDPOINT = "/api/v1/books";
     private static final String ALL_AUTHORS_ENDPOINT = "/api/v1/authors";
-    private static final String ADD_BOOK_ENDPOINT = "/api/v1/book/";
+    private static final String ADD_BOOK_ENDPOINT = "/api/v1/book";
 
     private final RestTemplate restTemplate;
 
@@ -68,9 +69,12 @@ public class ApiClientService {
         return CompletableFuture.completedFuture(booksListDto);
     }
 
-    public ResponseEntity<Boolean> callAddBook(int id, BookWithAuthorDto bookWithAuthorDto) {
-        log.info("adding book in book service");
-
-        return restTemplate.postForEntity(booksServiceUrl + ADD_BOOK_ENDPOINT + id, bookWithAuthorDto, Boolean.class);
+    public ResponseEntity<Boolean> callAddBook(BookWithAuthorDto bookWithAuthorDto) {
+        log.info("adding book in book service: {}", booksServiceUrl + ADD_BOOK_ENDPOINT);
+        try {
+            return restTemplate.postForEntity(booksServiceUrl + ADD_BOOK_ENDPOINT, bookWithAuthorDto, Boolean.class);
+        } catch (Exception ex) {
+            throw new BookServiceException("exception while calling book service: " + ex.getMessage());
+        }
     }
 }

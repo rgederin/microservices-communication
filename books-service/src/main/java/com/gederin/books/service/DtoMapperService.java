@@ -1,6 +1,7 @@
 package com.gederin.books.service;
 
 import com.gederin.books.dto.BookDto;
+import com.gederin.books.dto.BookWithAuthorDto;
 import com.gederin.books.model.Book;
 
 import org.springframework.stereotype.Service;
@@ -21,5 +22,13 @@ public class DtoMapperService {
                 book.getTitle(),
                 book.getPages(),
                 book.getAuthorId());
+    }
+
+    public Book mapFromBookWithAuthorDto(BookWithAuthorDto bookWithAuthorDto) {
+        return new Book(bookWithAuthorDto.getId(),
+                bookWithAuthorDto.getTitle(),
+                bookWithAuthorDto.getPages(),
+                bookWithAuthorDto.getAuthorId()
+        );
     }
 }

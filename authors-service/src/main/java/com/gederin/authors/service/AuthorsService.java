@@ -33,9 +33,7 @@ public class AuthorsService {
         );
     }
 
-    public AuthorDto addAuthor(int id, AuthorDto authorDto) {
-        return dtoMapperService.mapToAuthorDto(
-                authorsRepository.addAuthor(id, dtoMapperService.mapFromAuthorDto(authorDto))
-        );
+    public boolean addAuthor(AuthorDto authorDto) {
+        return authorsRepository.addAuthor(dtoMapperService.mapFromAuthorDto(authorDto));
     }
 }

@@ -11,6 +11,7 @@ public class DtoMapperService {
     public Author mapFromAuthorDto(AuthorDto authorDto) {
         Author author = new Author();
 
+        author.setId(authorDto.getId());
         author.setFirstName(authorDto.getFirstName());
         author.setLastName(authorDto.getLastName());
 

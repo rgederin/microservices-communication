@@ -17,9 +17,11 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class BackendForFrontendService {
 
     private final ApiClientService apiClientService;
@@ -64,10 +66,10 @@ public class BackendForFrontendService {
                 .collect(Collectors.toList());
     }
 
-    public ResponseEntity<Boolean> addBook(int id, BookWithAuthorDto bookWithAuthorDto) {
-        ResponseEntity<Boolean> result = apiClientService.callAddBook(bookWithAuthorDto.getId(), bookWithAuthorDto);
+    public ResponseEntity<Boolean> addBook( BookWithAuthorDto bookWithAuthorDto) {
+        ResponseEntity<Boolean> result = apiClientService.callAddBook(bookWithAuthorDto);
 
-        System.out.println(result);
+        log.info(String.valueOf(result));
 
         return result;
     }
