@@ -1,7 +1,6 @@
 sudo: required
 services:
   - docker
-
 script:
   - docker build -t rgederin/authors-service ./authors-service
   - docker build -t rgederin/books-service ./books-service
