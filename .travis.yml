@@ -4,4 +4,10 @@ script: mvn test
 
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  - mvn deploy
+  - mvn install
+  - mvn dockerfile:build -f authors-service/
+  - mvn dockerfile:build -f books-service/
+  - mvn dockerfile:build -f bff-service/
+  - mvn dockerfile:push -f authors-service/
+  - mvn dockerfile:build -f books-service/
+  - mvn dockerfile:build -f bff-service/
