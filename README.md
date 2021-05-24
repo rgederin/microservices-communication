@@ -1,4 +1,7 @@
-[![Build Status](https://travis-ci.com/github/rgederin/microservices-communication.svg?branch=master)](https://travis-ci.com/github/rgederin/microservices-communication)
+Travis CI build status: 
+
+[![Build Status](https://travis-ci.org/rgederin/spring-boot-rest-api-cicd.svg?branch=master)](https://travis-ci.com/github/rgederin/microservices-communication)
+
 
 # Communication in microservices
 
