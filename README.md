@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/github/rgederin/microservices-communication.svg?branch=master)](https://travis-ci.com/github/rgederin/microservices-communication)
+
 # Communication in microservices
 
 Repository for playing with different communication in microservices styles
