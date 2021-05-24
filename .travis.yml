@@ -1,13 +1,12 @@
 language: java
 
-script: mvn test
+script: mvn clean install
 
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  - mvn install
   - mvn dockerfile:build -f authors-service/
   - mvn dockerfile:build -f books-service/
   - mvn dockerfile:build -f bff-service/
   - mvn dockerfile:push -f authors-service/
-  - mvn dockerfile:build -f books-service/
-  - mvn dockerfile:build -f bff-service/
+  - mvn dockerfile:push -f books-service/
+  - mvn dockerfile:push -f bff-service/
