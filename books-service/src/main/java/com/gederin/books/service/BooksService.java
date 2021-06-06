@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
@@ -36,6 +37,18 @@ public class BooksService {
                 .collect(Collectors.toList()));
 
         return bookListDto;
+    }
+
+    public List<com.proto.book.Book> getGrpcBooks() {
+        return booksRepository.getBooks()
+                .stream()
+                .map(book -> com.proto.book.Book.newBuilder()
+                        .setId(book.getId())
+                        .setTitle(book.getTitle())
+                        .setPages(book.getPages())
+                        .setAuthorId(book.getAuthorId())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     public ResponseEntity<Boolean> addBook(BookWithAuthorDto bookWithAuthorDto) {

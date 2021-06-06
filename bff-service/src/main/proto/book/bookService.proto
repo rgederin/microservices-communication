@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package book;
+
+option java_package = "com.proto.book";
+option java_multiple_files = true;
+
+message BooksRequest {
+}
+
+message BooksResponse {
+    repeated Book book = 1;
+}
+
+message Book {
+    int32 id = 1;
+    string title = 2;
+    int32 pages = 3;
+    int32 authorId = 4;
+}
+
+service BooksService {
+    rpc getBooks (BooksRequest) returns (BooksResponse);
+}
+
