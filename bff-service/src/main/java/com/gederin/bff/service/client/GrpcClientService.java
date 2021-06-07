@@ -4,6 +4,7 @@ import com.gederin.bff.dto.AuthorsListDto;
 import com.gederin.bff.dto.BooksListDto;
 import com.gederin.bff.service.MapperService;
 import com.proto.author.AuthorsServiceGrpc.AuthorsServiceBlockingStub;
+import com.proto.book.AddBookRequest;
 import com.proto.book.BooksServiceGrpc;
 import com.proto.book.BooksServiceGrpc.BooksServiceBlockingStub;
 
@@ -78,5 +79,16 @@ public class GrpcClientService {
                 .collect(Collectors.toList()));
 
         return CompletableFuture.completedFuture(booksListDto);
+    }
+
+    public boolean addBook(AddBookRequest addBookRequest){
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(booksGrpcHost, booksGrpcPort)
+                .usePlaintext()
+                .build();
+
+        BooksServiceBlockingStub booksClient = BooksServiceGrpc.newBlockingStub(channel);
+        com.proto.book.AddBookResponse response = booksClient.addBook(addBookRequest);
+
+        return response.getAdded();
     }
 }

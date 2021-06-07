@@ -7,7 +7,7 @@ import com.gederin.books.model.Book;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DtoMapperService {
+public class MapperService {
     public Book mapFromBookDto(BookDto bookDto) {
         Book book = new Book();
 

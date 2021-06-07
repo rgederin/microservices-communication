@@ -7,6 +7,7 @@ import com.gederin.bff.dto.BookWithAuthorDto;
 import com.gederin.bff.dto.BooksListDto;
 import com.gederin.bff.dto.DashboardDto;
 import com.gederin.bff.dto.HealthDto;
+import com.gederin.bff.service.client.ApiClientService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 public class BackendForFrontendService {
 
     private final ApiClientService apiClientService;
+
+    private final MapperService mapperService;
 
     public HealthDto health() throws ExecutionException, InterruptedException {
         CompletableFuture<String> authorsHealth = apiClientService.callAuthorsHealth();
@@ -62,7 +65,7 @@ public class BackendForFrontendService {
         List<BookDto> booksList = books.get().getBooks();
 
         return booksList.stream()
-                .map(book -> mergeAuthorInBook(book, authorsList))
+                .map(book -> mapperService.mergeAuthorInBook(book, authorsList))
                 .collect(Collectors.toList());
     }
 
@@ -72,25 +75,5 @@ public class BackendForFrontendService {
         log.info(String.valueOf(result));
 
         return result;
-    }
-
-
-    private BookWithAuthorDto mergeAuthorInBook(BookDto book, List<AuthorDto> authors) {
-        BookWithAuthorDto bookWithAuthorDto = new BookWithAuthorDto();
-
-        bookWithAuthorDto.setId(book.getId());
-        bookWithAuthorDto.setTitle(book.getTitle());
-        bookWithAuthorDto.setPages(book.getPages());
-        bookWithAuthorDto.setAuthorId(book.getAuthorId());
-
-        AuthorDto authorDto = authors.stream()
-                .filter(author -> author.getId() == book.getAuthorId())
-                .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
-
-        bookWithAuthorDto.setFirstName(authorDto.getFirstName());
-        bookWithAuthorDto.setLastName(authorDto.getLastName());
-
-        return bookWithAuthorDto;
     }
 }

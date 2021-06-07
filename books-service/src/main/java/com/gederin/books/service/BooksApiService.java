@@ -8,12 +8,12 @@ import com.gederin.books.exception.AuthorServiceInvocationFailedException;
 import com.gederin.books.exception.BookNotAddedException;
 import com.gederin.books.model.Book;
 import com.gederin.books.repository.BooksRepository;
+import com.gederin.books.service.client.ApiClientService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BooksService {
 
     private final BooksRepository booksRepository;
-    private final DtoMapperService dtoMapperService;
+    private final MapperService mapperService;
     private final ApiClientService apiClientService;
 
     public BookListDto getBooks() {
@@ -33,26 +33,16 @@ public class BooksService {
 
         bookListDto.setBooks(booksRepository.getBooks()
                 .stream()
-                .map(dtoMapperService::mapToBookDto)
+                .map(mapperService::mapToBookDto)
                 .collect(Collectors.toList()));
 
         return bookListDto;
     }
 
-    public List<com.proto.book.Book> getGrpcBooks() {
-        return booksRepository.getBooks()
-                .stream()
-                .map(book -> com.proto.book.Book.newBuilder()
-                        .setId(book.getId())
-                        .setTitle(book.getTitle())
-                        .setPages(book.getPages())
-                        .setAuthorId(book.getAuthorId())
-                        .build())
-                .collect(Collectors.toList());
-    }
+
 
     public ResponseEntity<Boolean> addBook(BookWithAuthorDto bookWithAuthorDto) {
-        Book book = dtoMapperService.mapFromBookWithAuthorDto(bookWithAuthorDto);
+        Book book = mapperService.mapFromBookWithAuthorDto(bookWithAuthorDto);
 
         boolean isBookAdded = booksRepository.addBook(book);
 
@@ -85,8 +75,8 @@ public class BooksService {
     }
 
     public BookDto updateBook(int id, BookDto bookDto) {
-        return dtoMapperService.mapToBookDto(
-                booksRepository.updateBook(id, dtoMapperService.mapFromBookDto(bookDto))
+        return mapperService.mapToBookDto(
+                booksRepository.updateBook(id, mapperService.mapFromBookDto(bookDto))
         );
     }
 }

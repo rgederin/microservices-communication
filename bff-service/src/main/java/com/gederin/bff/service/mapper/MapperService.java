@@ -2,8 +2,11 @@ package com.gederin.bff.service;
 
 import com.gederin.bff.dto.AuthorDto;
 import com.gederin.bff.dto.BookDto;
+import com.gederin.bff.dto.BookWithAuthorDto;
 
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class MapperService {
@@ -28,5 +31,24 @@ public class MapperService {
         bookDto.setAuthorId(grpcBook.getAuthorId());
 
         return bookDto;
+    }
+
+    public BookWithAuthorDto mergeAuthorInBook(BookDto book, List<AuthorDto> authors) {
+        BookWithAuthorDto bookWithAuthorDto = new BookWithAuthorDto();
+
+        bookWithAuthorDto.setId(book.getId());
+        bookWithAuthorDto.setTitle(book.getTitle());
+        bookWithAuthorDto.setPages(book.getPages());
+        bookWithAuthorDto.setAuthorId(book.getAuthorId());
+
+        AuthorDto authorDto = authors.stream()
+                .filter(author -> author.getId() == book.getAuthorId())
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
+
+        bookWithAuthorDto.setFirstName(authorDto.getFirstName());
+        bookWithAuthorDto.setLastName(authorDto.getLastName());
+
+        return bookWithAuthorDto;
     }
 }
