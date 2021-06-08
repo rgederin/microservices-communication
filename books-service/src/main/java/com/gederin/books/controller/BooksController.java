@@ -4,7 +4,7 @@ import com.gederin.books.dto.BookDto;
 import com.gederin.books.dto.BookListDto;
 import com.gederin.books.dto.BookWithAuthorDto;
 import com.gederin.books.exception.BookNotFoundException;
-import com.gederin.books.service.BooksService;
+import com.gederin.books.service.BooksApiService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BooksController {
 
-    private BooksService booksService;
+    private BooksApiService booksApiService;
 
     @GetMapping("health")
     public String health() {
@@ -37,21 +37,21 @@ public class BooksController {
     @GetMapping("books")
     @ResponseStatus(HttpStatus.OK)
     public BookListDto books() {
-        return booksService.getBooks();
+        return booksApiService.getBooks();
     }
 
     @PostMapping("book")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Boolean> add(@RequestBody BookWithAuthorDto bookWithAuthorDto) {
         log.info("adding new book: " + bookWithAuthorDto);
-        return booksService.addBook(bookWithAuthorDto);
+        return booksApiService.addBook(bookWithAuthorDto);
     }
 
     @PutMapping("book/{id}")
     @ResponseStatus(HttpStatus.OK)
     public BookDto update(@PathVariable int id, @RequestBody BookDto bookDto){
         try {
-            return booksService.updateBook(id, bookDto);
+            return booksApiService.updateBook(id, bookDto);
         } catch (BookNotFoundException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "could not update not existed book", ex);
         }

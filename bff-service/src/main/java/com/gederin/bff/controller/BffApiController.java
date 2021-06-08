@@ -3,7 +3,7 @@ package com.gederin.bff.controller;
 import com.gederin.bff.dto.BookWithAuthorDto;
 import com.gederin.bff.dto.DashboardDto;
 import com.gederin.bff.dto.HealthDto;
-import com.gederin.bff.service.BackendForFrontendService;
+import com.gederin.bff.service.BffApiService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("api/v1")
 @AllArgsConstructor
 @Slf4j
-public class BackendForFrontendController {
+public class BffApiController {
 
-    private final BackendForFrontendService backendForFrontendService;
+    private final BffApiService backendForFrontendService;
 
     @GetMapping("self/health")
     @ResponseStatus(HttpStatus.OK)

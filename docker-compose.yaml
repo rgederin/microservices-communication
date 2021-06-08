@@ -13,6 +13,8 @@ services:
       - 8082:8082
     environment:
       AUTHORS_URL: http://authors-service:8081
+      AUTHORS_GRPC_HOST: authors-service
+      AUTHORS_GRPC_PORT: 50051
 
   bff-service:
     build:
@@ -22,3 +24,7 @@ services:
     environment:
       AUTHORS_URL: http://authors-service:8081
       BOOKS_URL: http://books-service:8082
+      AUTHORS_GRPC_HOST: authors-service
+      AUTHORS_GRPC_PORT: 50051
+      BOOKS_GRPC_HOST: books-service
+      BOOKS_GRPC_PORT: 50052

@@ -1,4 +1,4 @@
-package com.gederin.bff.service;
+package com.gederin.bff.service.mapper;
 
 import com.gederin.bff.dto.AuthorDto;
 import com.gederin.bff.dto.BookDto;
@@ -33,6 +33,17 @@ public class MapperService {
         return bookDto;
     }
 
+    public com.proto.book.AddBookRequest mapFromDto(BookWithAuthorDto bookWithAuthorDto) {
+        return com.proto.book.AddBookRequest.newBuilder()
+                .setId(bookWithAuthorDto.getId())
+                .setTitle(bookWithAuthorDto.getTitle())
+                .setPages(bookWithAuthorDto.getPages())
+                .setAuthorId(bookWithAuthorDto.getAuthorId())
+                .setFirstName(bookWithAuthorDto.getFirstName())
+                .setLastName(bookWithAuthorDto.getLastName())
+                .build();
+    }
+
     public BookWithAuthorDto mergeAuthorInBook(BookDto book, List<AuthorDto> authors) {
         BookWithAuthorDto bookWithAuthorDto = new BookWithAuthorDto();
 
@@ -50,5 +61,13 @@ public class MapperService {
         bookWithAuthorDto.setLastName(authorDto.getLastName());
 
         return bookWithAuthorDto;
+    }
+
+    public com.proto.author.UpdateAuthorRequest mapToAuthorGrpc(AuthorDto authorDto) {
+        return com.proto.author.UpdateAuthorRequest.newBuilder()
+                .setId(authorDto.getId())
+                .setFirstName(authorDto.getFirstName())
+                .setLastName(authorDto.getLastName())
+                .build();
     }
 }

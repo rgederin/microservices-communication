@@ -1,4 +1,4 @@
-package com.gederin.books.service;
+package com.gederin.books.service.mapper;
 
 import com.gederin.books.dto.BookDto;
 import com.gederin.books.dto.BookWithAuthorDto;
@@ -24,11 +24,39 @@ public class MapperService {
                 book.getAuthorId());
     }
 
+    public Book mapFromGrpcRequest(com.proto.book.AddBookRequest addBookRequest) {
+        Book book = new Book();
+
+        book.setId(addBookRequest.getId());
+        book.setTitle(addBookRequest.getTitle());
+        book.setPages(addBookRequest.getPages());
+        book.setAuthorId(addBookRequest.getAuthorId());
+
+        return book;
+    }
+
+    public com.proto.author.AddAuthorRequest mapToAddAuthorRequest(com.proto.book.AddBookRequest addBookRequest) {
+        return com.proto.author.AddAuthorRequest.newBuilder()
+                .setId(addBookRequest.getAuthorId())
+                .setFirstName(addBookRequest.getFirstName())
+                .setLastName(addBookRequest.getLastName())
+                .build();
+    }
+
     public Book mapFromBookWithAuthorDto(BookWithAuthorDto bookWithAuthorDto) {
         return new Book(bookWithAuthorDto.getId(),
                 bookWithAuthorDto.getTitle(),
                 bookWithAuthorDto.getPages(),
                 bookWithAuthorDto.getAuthorId()
         );
+    }
+
+    public com.proto.book.Book mapToBookGrpc (Book book){
+        return com.proto.book.Book.newBuilder()
+                .setId(book.getId())
+                .setTitle(book.getTitle())
+                .setPages(book.getPages())
+                .setAuthorId(book.getAuthorId())
+                .build();
     }
 }

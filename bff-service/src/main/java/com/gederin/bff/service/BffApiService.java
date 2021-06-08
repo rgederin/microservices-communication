@@ -8,6 +8,7 @@ import com.gederin.bff.dto.BooksListDto;
 import com.gederin.bff.dto.DashboardDto;
 import com.gederin.bff.dto.HealthDto;
 import com.gederin.bff.service.client.ApiClientService;
+import com.gederin.bff.service.mapper.MapperService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class BackendForFrontendService {
+public class BffApiService {
 
     private final ApiClientService apiClientService;
 

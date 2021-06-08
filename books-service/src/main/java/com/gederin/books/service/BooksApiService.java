@@ -9,6 +9,7 @@ import com.gederin.books.exception.BookNotAddedException;
 import com.gederin.books.model.Book;
 import com.gederin.books.repository.BooksRepository;
 import com.gederin.books.service.client.ApiClientService;
+import com.gederin.books.service.mapper.MapperService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class BooksService {
+public class BooksApiService {
 
     private final BooksRepository booksRepository;
     private final MapperService mapperService;
@@ -38,8 +39,6 @@ public class BooksService {
 
         return bookListDto;
     }
-
-
 
     public ResponseEntity<Boolean> addBook(BookWithAuthorDto bookWithAuthorDto) {
         Book book = mapperService.mapFromBookWithAuthorDto(bookWithAuthorDto);

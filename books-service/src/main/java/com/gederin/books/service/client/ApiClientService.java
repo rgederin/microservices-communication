@@ -1,4 +1,4 @@
-package com.gederin.books.service;
+package com.gederin.books.service.client;
 
 import com.gederin.books.dto.AuthorDto;
 

@@ -1,10 +1,18 @@
-package com.gederin.bff.grpc;
+package com.gederin.bff.service.client;
 
 import com.gederin.bff.dto.AuthorsListDto;
 import com.gederin.bff.dto.BooksListDto;
-import com.gederin.bff.service.MapperService;
+import com.gederin.bff.service.mapper.MapperService;
+import com.proto.author.AuthorsRequest;
+import com.proto.author.AuthorsResponse;
+import com.proto.author.AuthorsServiceGrpc;
 import com.proto.author.AuthorsServiceGrpc.AuthorsServiceBlockingStub;
+import com.proto.author.UpdateAuthorRequest;
+import com.proto.author.UpdateAuthorResponse;
 import com.proto.book.AddBookRequest;
+import com.proto.book.AddBookResponse;
+import com.proto.book.BooksRequest;
+import com.proto.book.BooksResponse;
 import com.proto.book.BooksServiceGrpc;
 import com.proto.book.BooksServiceGrpc.BooksServiceBlockingStub;
 
@@ -49,8 +57,8 @@ public class GrpcClientService {
                 .usePlaintext()
                 .build();
 
-        AuthorsServiceBlockingStub authorsClient = com.proto.author.AuthorsServiceGrpc.newBlockingStub(channel);
-        com.proto.author.AuthorsResponse grpcResponse = authorsClient.getAuthors(com.proto.author.AuthorsRequest.newBuilder().build());
+        AuthorsServiceBlockingStub authorsClient = AuthorsServiceGrpc.newBlockingStub(channel);
+        AuthorsResponse grpcResponse = authorsClient.getAuthors(AuthorsRequest.newBuilder().build());
 
         AuthorsListDto authorsListDto = new AuthorsListDto();
 
@@ -69,7 +77,7 @@ public class GrpcClientService {
                 .build();
 
         BooksServiceBlockingStub booksClient = BooksServiceGrpc.newBlockingStub(channel);
-        com.proto.book.BooksResponse response = booksClient.getBooks(com.proto.book.BooksRequest.newBuilder().build());
+        BooksResponse response = booksClient.getBooks(BooksRequest.newBuilder().build());
 
         BooksListDto booksListDto = new BooksListDto();
 
@@ -81,14 +89,25 @@ public class GrpcClientService {
         return CompletableFuture.completedFuture(booksListDto);
     }
 
-    public boolean addBook(AddBookRequest addBookRequest){
+    public boolean addBook(AddBookRequest addBookRequest) {
         ManagedChannel channel = ManagedChannelBuilder.forAddress(booksGrpcHost, booksGrpcPort)
                 .usePlaintext()
                 .build();
 
         BooksServiceBlockingStub booksClient = BooksServiceGrpc.newBlockingStub(channel);
-        com.proto.book.AddBookResponse response = booksClient.addBook(addBookRequest);
+        AddBookResponse response = booksClient.addBook(addBookRequest);
 
         return response.getAdded();
+    }
+
+    public boolean updateAuthor(UpdateAuthorRequest updateAuthorRequest) {
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(authorsGrpcHost, authorsGrpcPort)
+                .usePlaintext()
+                .build();
+
+        AuthorsServiceBlockingStub authorsClient = AuthorsServiceGrpc.newBlockingStub(channel);
+        UpdateAuthorResponse response = authorsClient.updateAuthor(updateAuthorRequest);
+
+        return response.getUpdated();
     }
 }

@@ -1,13 +1,15 @@
 package com.gederin.bff.controller;
 
+import com.gederin.bff.dto.AuthorDto;
 import com.gederin.bff.dto.BookWithAuthorDto;
 import com.gederin.bff.dto.DashboardDto;
-import com.gederin.bff.service.BackendForFrontendGrpcService;
+import com.gederin.bff.service.BffGrpcService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -23,9 +25,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("api/v2")
 @AllArgsConstructor
 @Slf4j
-public class BackendForFrontendGrpcController {
+public class BffGrpcController {
 
-    private final BackendForFrontendGrpcService grpcService;
+    private final BffGrpcService grpcService;
 
     @GetMapping("dashboard")
     @ResponseStatus(HttpStatus.OK)
@@ -43,5 +45,11 @@ public class BackendForFrontendGrpcController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Boolean> addBook(@RequestBody BookWithAuthorDto bookWithAuthorDto){
         return grpcService.addBook(bookWithAuthorDto);
+    }
+
+    @PutMapping("author")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Boolean> updateAuthor(@RequestBody AuthorDto authorDto){
+        return grpcService.updateAuthor(authorDto);
     }
 }

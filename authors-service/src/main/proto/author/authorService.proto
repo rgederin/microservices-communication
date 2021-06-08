@@ -19,7 +19,30 @@ message Author {
     int32 numberOfBooks = 4;
 }
 
+message AddAuthorRequest {
+    int32 id = 1;
+    string firstName = 2;
+    string lastName = 3;
+}
+
+message AddAuthorResponse {
+    bool added = 1;
+}
+
+message UpdateAuthorRequest {
+    int32 id = 1;
+    string firstName = 2;
+    string lastName = 3;
+}
+
+message UpdateAuthorResponse {
+    bool updated = 1;
+}
+
 service AuthorsService {
     rpc getAuthors (AuthorsRequest) returns (AuthorsResponse);
+    rpc addAuthor (AddAuthorRequest) returns (AddAuthorResponse);
+    rpc updateAuthor (UpdateAuthorRequest) returns (UpdateAuthorResponse);
 }
+
 

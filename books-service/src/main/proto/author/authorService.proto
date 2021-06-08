@@ -5,20 +5,6 @@ package author;
 option java_package = "com.proto.author";
 option java_multiple_files = true;
 
-message AuthorsRequest {
-}
-
-message AuthorsResponse {
-    repeated Author authors = 1;
-}
-
-message Author {
-    int32 id = 1;
-    string firstName = 2;
-    string lastName = 3;
-    int32 numberOfBooks = 4;
-}
-
 message AddAuthorRequest {
     int32 id = 1;
     string firstName = 2;
@@ -30,8 +16,5 @@ message AddAuthorResponse {
 }
 
 service AuthorsService {
-    rpc getAuthors (AuthorsRequest) returns (AuthorsResponse);
     rpc addAuthor (AddAuthorRequest) returns (AddAuthorResponse);
 }
-
-

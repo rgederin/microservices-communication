@@ -1,6 +1,8 @@
 package com.gederin.books.grpc;
 
-import com.gederin.books.service.BooksService;
+import com.gederin.books.service.BooksGrpcService;
+import com.proto.book.AddBookRequest;
+import com.proto.book.AddBookResponse;
 import com.proto.book.BooksRequest;
 import com.proto.book.BooksResponse;
 import com.proto.book.BooksServiceGrpc.BooksServiceImplBase;
@@ -14,7 +16,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class GrpcBooksServiceImpl extends BooksServiceImplBase {
 
-    private final BooksService booksService;
+    private final BooksGrpcService booksService;
 
     @Override
     public void getBooks(BooksRequest request, StreamObserver<BooksResponse> responseObserver) {
@@ -23,6 +25,14 @@ public class GrpcBooksServiceImpl extends BooksServiceImplBase {
                 .build();
 
         responseObserver.onNext(booksResponse);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void addBook(AddBookRequest request, StreamObserver<AddBookResponse> responseObserver) {
+        AddBookResponse addBookResponse = booksService.addBook(request);
+
+        responseObserver.onNext(addBookResponse);
         responseObserver.onCompleted();
     }
 }

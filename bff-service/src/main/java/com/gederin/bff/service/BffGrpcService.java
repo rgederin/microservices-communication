@@ -21,7 +21,7 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class BackendForFrontendGrpcService {
+public class BffGrpcService {
 
     private final GrpcClientService grpcClient;
 
@@ -54,15 +54,10 @@ public class BackendForFrontendGrpcService {
     }
 
     public ResponseEntity<Boolean> addBook(BookWithAuthorDto bookWithAuthorDto){
-        com.proto.book.AddBookRequest request = com.proto.book.AddBookRequest.newBuilder()
-                .setId(bookWithAuthorDto.getId())
-                .setTitle(bookWithAuthorDto.getTitle())
-                .setPages(bookWithAuthorDto.getPages())
-                .setAuthorId(bookWithAuthorDto.getAuthorId())
-                .setFirstName(bookWithAuthorDto.getFirstName())
-                .setLastName(bookWithAuthorDto.getLastName())
-                .build();
+        return ResponseEntity.ok(grpcClient.addBook(mapperService.mapFromDto(bookWithAuthorDto)));
+    }
 
-        return ResponseEntity.ok(grpcClient.addBook(request));
+    public ResponseEntity<Boolean> updateAuthor(AuthorDto authorDto) {
+        return ResponseEntity.ok(grpcClient.updateAuthor(mapperService.mapToAuthorGrpc(authorDto)));
     }
 }

@@ -1,4 +1,4 @@
-package com.gederin.books.grpc;
+package com.gederin.books.service.client;
 
 import com.proto.author.AuthorsServiceGrpc.AuthorsServiceBlockingStub;
 

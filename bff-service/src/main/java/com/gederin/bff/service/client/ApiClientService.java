@@ -1,4 +1,4 @@
-package com.gederin.bff.service;
+package com.gederin.bff.service.client;
 
 import com.gederin.bff.dto.AuthorsListDto;
 import com.gederin.bff.dto.BookWithAuthorDto;
