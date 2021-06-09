@@ -10,6 +10,7 @@ after_success:
   - mvn dockerfile:push -f authors-service/
   - mvn dockerfile:push -f books-service/
   - mvn dockerfile:push -f bff-service/
+
 #
 #deploy:
 #  provider: elasticbeanstalk
