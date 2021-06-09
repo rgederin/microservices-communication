@@ -1,6 +1,7 @@
-package com.gederin.books.v3.service;
+package com.gederin.authors.v3.service.queue;
 
-import com.gederin.books.v3.model.Author;
+
+import com.gederin.authors.v3.model.Author;
 
 import org.msgpack.core.MessageBufferPacker;
 import org.msgpack.core.MessagePack;
@@ -11,7 +12,7 @@ import java.io.IOException;
 
 import lombok.AllArgsConstructor;
 
-import static com.gederin.books.v3.config.AmqpConfig.BOOK_TOPIC_EXCHANGE_NAME;
+import static com.gederin.authors.v3.AmqpConfig.AUTHOR_CREATED_TOPIC_EXCHANGE_NAME;
 
 @Service
 @AllArgsConstructor
@@ -19,12 +20,13 @@ public class AmqpSenderService {
 
     private final RabbitTemplate rabbitTemplate;
 
-    public void sendBookCreatedEvent(Author author) throws IOException {
-        String routingKey = "book_created";
-        rabbitTemplate.convertAndSend(BOOK_TOPIC_EXCHANGE_NAME, routingKey, packBookCreatedEvent(author).toByteArray());
+    public void sendAuthorCreatedEvent(Author author) throws IOException {
+        String routingKey = "author.created";
+
+        rabbitTemplate.convertAndSend(AUTHOR_CREATED_TOPIC_EXCHANGE_NAME, routingKey, packAuthorCreatedEvent(author).toByteArray());
     }
 
-    private MessageBufferPacker packBookCreatedEvent(Author author) throws IOException {
+    private MessageBufferPacker packAuthorCreatedEvent(Author author) throws IOException {
         try (MessageBufferPacker packer = MessagePack.newDefaultBufferPacker()) {
             packer.packInt(author.getId())
                     .packString(author.getFirstName())
