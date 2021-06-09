@@ -14,6 +14,8 @@ public class AmqpConfig {
     public static final String BOOK_QUEUE = "book_created_queue";
     public static final String BOOK_TOPIC_EXCHANGE_NAME = "book_topic_exchange";
     public static final String BOOK_BINDING_PATTERN = "book_created";
+    public static final String AUTHORS_CREATED_QUEUE = "author_created_queue";
+    public static final String AUTHOR_UPDATED_QUEUE = "author_updated_queue";
 
     @Bean
     public Declarables bookTopicBindings() {

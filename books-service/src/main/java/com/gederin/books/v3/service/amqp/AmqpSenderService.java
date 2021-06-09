@@ -1,4 +1,4 @@
-package com.gederin.books.v3.service;
+package com.gederin.books.v3.service.amqp;
 
 import com.gederin.books.v3.model.Author;
 

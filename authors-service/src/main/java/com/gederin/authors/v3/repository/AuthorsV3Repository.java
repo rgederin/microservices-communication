@@ -1,7 +1,8 @@
 package com.gederin.authors.v3.repository;
 
 
-import com.gederin.authors.exceptions.AuthorDatabaseException;
+import com.gederin.authors.v3.exceptions.AuthorDatabaseException;
+import com.gederin.authors.v3.exceptions.AuthorNotFoundException;
 import com.gederin.authors.v3.model.Author;
 
 import org.springframework.stereotype.Repository;
@@ -37,5 +38,18 @@ public class AuthorsV3Repository {
             author.setNumberOfBooks(1);
             authors.put(author.getId(), author);
         }
+    }
+
+    public void updateAuthor(Author author) {
+        if (!authors.containsKey(author.getId())) {
+            throw new AuthorNotFoundException("failed to update not existed author with id: " + author.getId());
+        }
+
+        authors.compute(author.getId(), (key, value) -> {
+                    value.setFirstName(author.getFirstName());
+                    value.setLastName(author.getLastName());
+                    return value;
+                }
+        );
     }
 }

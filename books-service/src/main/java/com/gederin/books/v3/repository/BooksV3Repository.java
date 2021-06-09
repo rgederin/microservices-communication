@@ -1,5 +1,6 @@
 package com.gederin.books.v3.repository;
 
+import com.gederin.books.v3.exception.AuthorNotFoundException;
 import com.gederin.books.v3.exception.BookAlreadyExistsException;
 import com.gederin.books.v3.model.Author;
 import com.gederin.books.v3.model.Book;
@@ -37,6 +38,19 @@ public class BooksV3Repository {
 
     public void addAuthor(Author author) {
         authors.putIfAbsent(author.getId(), author);
+    }
+
+    public void updateAuthor(Author author) {
+        if (!authors.containsKey(author.getId())) {
+            throw new AuthorNotFoundException("author with id = " + author.getId() + " not found thus can not be updated");
+        }
+
+        authors.compute(author.getId(), (key, value) -> {
+                    value.setFirstName(author.getFirstName());
+                    value.setLastName(author.getLastName());
+                    return value;
+                }
+        );
     }
 
     public Collection<Book> getBooks() {

@@ -1,4 +1,4 @@
-package com.gederin.authors.v3.service.queue;
+package com.gederin.authors.v3.service.amqp;
 
 import com.gederin.authors.v3.model.Author;
 import com.gederin.authors.v3.service.AuthorsV3Service;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import static com.gederin.authors.v3.AmqpConfig.BOOK_QUEUE;
+import static com.gederin.authors.v3.config.AmqpConfig.BOOK_QUEUE;
 
 @Service
 @AllArgsConstructor
