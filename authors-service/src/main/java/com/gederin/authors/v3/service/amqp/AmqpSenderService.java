@@ -21,13 +21,13 @@ public class AmqpSenderService {
     private final RabbitTemplate rabbitTemplate;
 
     public void sendAuthorCreatedEvent(Author author) throws IOException {
-        String routingKey = "author.created";
+        String routingKey = "author_created";
 
         rabbitTemplate.convertAndSend(AUTHOR_TOPIC_EXCHANGE_NAME, routingKey, packEvent(author).toByteArray());
     }
 
     public void sendAuthorUpdatedEvent(Author author) throws IOException {
-        String routingKey = "author.updated";
+        String routingKey = "author_updated";
 
         rabbitTemplate.convertAndSend(AUTHOR_TOPIC_EXCHANGE_NAME, routingKey, packEvent(author).toByteArray());
     }

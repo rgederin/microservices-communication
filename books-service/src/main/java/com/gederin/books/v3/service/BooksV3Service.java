@@ -1,5 +1,6 @@
 package com.gederin.books.v3.service;
 
+import com.gederin.books.v3.dto.BookListDto;
 import com.gederin.books.v3.dto.BookWithAuthorDto;
 import com.gederin.books.v3.model.Author;
 import com.gederin.books.v3.model.Book;
@@ -66,11 +67,11 @@ public class BooksV3Service {
         }
     }
 
-    public List<BookWithAuthorDto> getBooksWithAuthors() {
+    public BookListDto getBooksWithAuthors() {
         Collection<Book> books = booksRepository.getBooks();
         Collection<Author> authors = booksRepository.getAuthors();
 
-        return books.stream()
+        List<BookWithAuthorDto> bookWithAuthorDtos =  books.stream()
                 .map(book -> {
                     Author bookAuthor = authors.stream()
                             .filter(author -> author.getId() == book.getAuthorId())
@@ -86,5 +87,9 @@ public class BooksV3Service {
                             .lastName(bookAuthor.getLastName())
                             .build();
                 }).collect(Collectors.toList());
+
+        return BookListDto.builder()
+                .books(bookWithAuthorDtos)
+                .build();
     }
 }

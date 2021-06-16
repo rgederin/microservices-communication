@@ -1,5 +1,6 @@
 package com.gederin.books.v3.controller;
 
+import com.gederin.books.v3.dto.BookListDto;
 import com.gederin.books.v3.dto.BookWithAuthorDto;
 import com.gederin.books.v3.service.BooksV3Service;
 
@@ -11,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +26,7 @@ public class BooksV3Controller {
 
     @GetMapping("books")
     @ResponseStatus(HttpStatus.OK)
-    public List<BookWithAuthorDto> books() {
+    public BookListDto books() {
         return booksService.getBooksWithAuthors();
     }
 

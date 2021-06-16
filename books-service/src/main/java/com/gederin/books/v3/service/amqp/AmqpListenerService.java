@@ -25,6 +25,7 @@ public class AmqpListenerService {
 
     @RabbitListener(queues = AUTHORS_CREATED_QUEUE)
     public void receiveMessageFromAuthorCreatedQueue(byte[] authorEvent) throws IOException {
+        log.info("received author.created event");
         Author author = unpackAuthorEvent(authorEvent);
 
         booksService.addAuthor(author);

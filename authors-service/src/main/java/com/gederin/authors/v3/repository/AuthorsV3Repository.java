@@ -1,15 +1,14 @@
 package com.gederin.authors.v3.repository;
 
 
-import com.gederin.authors.v3.exceptions.AuthorDatabaseException;
 import com.gederin.authors.v3.exceptions.AuthorNotFoundException;
 import com.gederin.authors.v3.model.Author;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import javax.annotation.PostConstruct;
 
@@ -24,10 +23,6 @@ public class AuthorsV3Repository {
     }
 
     public void addAuthor(Author author) {
-        if (new Random().nextInt(5) == 4) {
-            throw new AuthorDatabaseException("failed to save the author");
-        }
-
         if (authors.containsKey(author.getId())) {
             authors.compute(author.getId(), (key, value) -> {
                         value.setNumberOfBooks(value.getNumberOfBooks() + 1);
@@ -51,5 +46,9 @@ public class AuthorsV3Repository {
                     return value;
                 }
         );
+    }
+
+    public Collection<Author> getAuthors(){
+        return authors.values();
     }
 }

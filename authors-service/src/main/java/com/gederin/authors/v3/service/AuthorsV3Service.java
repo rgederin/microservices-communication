@@ -1,10 +1,16 @@
 package com.gederin.authors.v3.service;
 
+import com.gederin.authors.v3.dto.AuthorDto;
+import com.gederin.authors.v3.dto.AuthorsListDto;
+import com.gederin.authors.v3.exceptions.AuthorDatabaseException;
 import com.gederin.authors.v3.model.Author;
 import com.gederin.authors.v3.repository.AuthorsV3Repository;
 import com.gederin.authors.v3.service.amqp.AmqpSenderService;
 
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +50,25 @@ public class AuthorsV3Service {
         } catch (Exception ex) {
             log.error("Exception while updating author info: " + ex);
             return false;
+        }
+    }
+
+    public AuthorsListDto getAuthors() {
+        try {
+            List<AuthorDto> authorDtos = authorsRepository.getAuthors()
+                    .stream()
+                    .map(author -> AuthorDto.builder().id(author.getId())
+                            .firstName(author.getFirstName())
+                            .lastName(author.getLastName())
+                            .numberOfBooks(author.getNumberOfBooks()).build())
+                    .collect(Collectors.toList());
+
+            log.info("getting all authors from data resposoty: {}", authorDtos);
+
+            return AuthorsListDto.builder().authors(authorDtos).build();
+        } catch (Exception ex) {
+            log.error("Exception while getting all authors: " + ex);
+            throw new AuthorDatabaseException(ex.getMessage());
         }
     }
 }

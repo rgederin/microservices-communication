@@ -16,8 +16,8 @@ public class AmqpConfig {
     public static final String AUTHOR_UPDATED_QUEUE = "author_updated_queue";
     public static final String AUTHOR_TOPIC_EXCHANGE_NAME = "author_topic_exchange";
 
-    public static final String AUTHOR_CREATED_BINDING_PATTERN = ".created";
-    public static final String AUTHOR_UPDATED_BINDING_PATTERN = ".updated";
+    public static final String AUTHOR_CREATED_BINDING_PATTERN = "author_created";
+    public static final String AUTHOR_UPDATED_BINDING_PATTERN = "author_updated";
 
     @Bean
     public Declarables authorTopicBindings() {

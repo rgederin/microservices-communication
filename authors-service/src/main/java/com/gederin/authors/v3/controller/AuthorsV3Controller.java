@@ -1,17 +1,20 @@
 package com.gederin.authors.v3.controller;
 
-import com.gederin.authors.dto.AuthorDto;
-import com.gederin.authors.exceptions.AuthorNotFoundException;
+import com.gederin.authors.v3.dto.AuthorDto;
+import com.gederin.authors.v3.dto.AuthorsListDto;
+import com.gederin.authors.v3.model.Author;
 import com.gederin.authors.v3.service.AuthorsV3Service;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,13 +27,18 @@ public class AuthorsV3Controller {
 
     private final AuthorsV3Service authorsService;
 
-    @PutMapping("author/{id}")
+    @GetMapping("authors")
     @ResponseStatus(HttpStatus.OK)
-    public AuthorDto update(@PathVariable int id, @RequestBody AuthorDto authorDto) {
-        try {
-            return authorsService.updateAuthor(id, authorDto);
-        } catch (AuthorNotFoundException ex) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "author not found for update", ex);
-        }
+    public AuthorsListDto authors() {
+        return authorsService.getAuthors();
+    }
+
+    @PutMapping("author")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Boolean> update(@RequestBody AuthorDto authorDto) {
+        return ResponseEntity.of(Optional.of(authorsService.updateAuthor(
+                Author.builder().id(authorDto.getId())
+                        .firstName(authorDto.getFirstName())
+                        .lastName(authorDto.getLastName()).build())));
     }
 }

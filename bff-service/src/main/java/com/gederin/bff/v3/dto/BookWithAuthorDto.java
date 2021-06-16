@@ -1,4 +1,4 @@
-package com.gederin.books.v3.dto;
+package com.gederin.bff.v3.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
